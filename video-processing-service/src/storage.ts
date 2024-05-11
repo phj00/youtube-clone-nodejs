@@ -8,8 +8,8 @@ import ffmpeg from 'fluent-ffmpeg';
 
 const storage = new Storage();
 
-const rawVideoBucketName = "jp-yt-raw-videos";
-const processedVideoBucketName = "jp-yt-processed-videos";
+const rawVideoBucketName = "phj-yt-raw-videos";
+const processedVideoBucketName = "phj-yt-processed-videos";
 
 const localRawVideoPath = "./raw-videos";
 const localProcessedVideoPath = "./processed-videos";
@@ -27,7 +27,7 @@ export function setupDirectories() {
  */
 export function convertVideo(rawVideoName: string, processedVideoName: string) {
     return new Promise<void>((resolve, reject) => {
-        ffmpeg(`{localRawVideoPath}/${rawVideoName}`)
+        ffmpeg(`${localRawVideoPath}/${rawVideoName}`)
         .outputOptions('-vf', 'scale=-1:360') // 360p
         .on('end', function() {
             console.log('Processing finished successfully');
@@ -37,7 +37,7 @@ export function convertVideo(rawVideoName: string, processedVideoName: string) {
             console.log('An error occurred: ' + err.message);
             reject(err);
         })
-        .save(`{localProcessedVideoPath}/${processedVideoName}`);
+        .save(`${localProcessedVideoPath}/${processedVideoName}`);
     })
 }
 
